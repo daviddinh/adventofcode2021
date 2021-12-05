@@ -1,6 +1,4 @@
-let input = require("fs")
-  .readFileSync("./04-input.txt", "utf-8")
-  .split("\n\n");
+let input = require("fs").readFileSync("./04-input.txt", "utf-8").split("\n\n");
 
 let numbers = input[0].split(",").map(Number);
 
@@ -28,17 +26,26 @@ function addCardColumns(card) {
 
 cardsWithColumns = cards.map((e) => addCardColumns(e));
 
-numbers.some((e, i) => {
+let winningOrder = [];
+numbers.some((_, i) => {
   let markedNumbers = numbers.slice(0, i);
-  let winningCards = cardsWithColumns.filter((e, i) => {
-    return e.filter((f) =>
-      // F is a row or a column
-      f.every((j) => markedNumbers.includes(j))
-    ).length;
+  // Part(b) we just need to know which the last card is rather than the first
+  let winningCards = cardsWithColumns.filter((e, k) => {
+    if (
+      e.filter((f) =>
+        // F is a row or a column
+        f.every((j) => markedNumbers.includes(j))
+      ).length
+    ) {
+      if (!winningOrder.includes(k)) {
+        winningOrder.push(k);
+      }
+      return true;
+    }
   });
-  if (winningCards.length) {
+  if (winningCards.length == cardsWithColumns.length) {
     // remove the columns again so we don't double count
-    let winningCard = winningCards[0].slice(0, 5); 
+    let winningCard = winningCards[winningOrder.pop()].slice(0, 5);
     let unmarkedNumbersSum = winningCard
       .reduce((a, b) => a.concat(b), [])
       .filter((e) => !markedNumbers.includes(e))
@@ -49,7 +56,7 @@ numbers.some((e, i) => {
     // console.log("markedNumbers", markedNumbers);
     // console.log("sumOfUnmarkedNumbers", unmarkedNumbersSum);
     // console.log("lastMarkedNumber", lastMarkedNumber);
-    console.log(score);
+    console.log("score", score);
     return true;
   }
   return false;
