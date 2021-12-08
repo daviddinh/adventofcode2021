@@ -20,22 +20,14 @@ let decodeDigits = signalSet => {
 
   // 0, 6, 9
   let sixSegmentDigits = patterns.filter(e => e.length == 6)
-  digits[6] = sixSegmentDigits.find(
-    e => digits[7].split("").filter(f => e.indexOf(f) != -1).length != 3
-  )
-  digits[9] = sixSegmentDigits.find(
-    e => digits[4].split("").filter(f => e.indexOf(f) != -1).length == 4
-  )
+  digits[6] = sixSegmentDigits.find(e => digits[7].split("").filter(f => e.indexOf(f) != -1).length != 3)
+  digits[9] = sixSegmentDigits.find(e => digits[4].split("").filter(f => e.indexOf(f) != -1).length == 4)
   digits[0] = sixSegmentDigits.find(e => e != digits[6] && e != digits[9])
 
   // 2, 3, 5
   let fiveSegmentDigits = patterns.filter(e => e.length == 5)
-  digits[3] = fiveSegmentDigits.find(
-    e => digits[7].split("").filter(f => e.indexOf(f) != -1).length == 3
-  )
-  digits[5] = fiveSegmentDigits.find(
-    e => digits[6].split("").filter(f => e.indexOf(f) != -1).length == 5
-  )
+  digits[3] = fiveSegmentDigits.find(e => digits[7].split("").filter(f => e.indexOf(f) != -1).length == 3)
+  digits[5] = fiveSegmentDigits.find(e => digits[6].split("").filter(f => e.indexOf(f) != -1).length == 5)
   digits[2] = fiveSegmentDigits.find(e => e != digits[3] && e != digits[5])
 
   return Number(value.map(e => digits.indexOf(e)).join(""))
