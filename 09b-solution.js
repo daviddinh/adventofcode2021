@@ -83,5 +83,3 @@ console.log(
     .slice(0, 3)
     .reduce((a, b) => a * b, 1)
 )
-// We want to get the coords of the low points and then spread each way until we hit nine.
-// We want to keep going until its a 7 (so we record the 8 but not the 9)
